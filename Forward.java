@@ -6,30 +6,31 @@ import lejos.robotics.subsumption.Behavior;
 public class Forward implements Behavior {
 
 
-		private boolean suppressed = true;
-		
-		public boolean takeControl() {
-			
-			return true;
-			
-		}
+	private boolean suppressed = true;
 
-		public void action() {
-			Motor.A.forward();
-			Motor.B.forward();
-				 while (!suppressed)
-				 {
-					 Thread.yield();
-				 }
-			 }
-		
+	public boolean takeControl() {
 
-		public void suppress() {
-			suppressed = true;
-			
-		}
+		return true;
 
 	}
+
+	public void action() {
+		suppressed = false;
+		Motor.A.forward();
+
+		while (!suppressed)
+		{
+			Thread.yield();
+		}
+	}
+
+
+	public void suppress() {
+		suppressed = true;
+
+	}
+
+}
 
 
 

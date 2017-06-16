@@ -7,25 +7,26 @@ import lejos.nxt.UltrasonicSensor;
 import lejos.robotics.subsumption.Behavior;
 
 public class Ultrasonic implements Behavior {
-	private UltrasonicSensor sonar = new UltrasonicSensor(SensorPort.S4);
 	private boolean suppressed = true;
+	private UltrasonicSensor sonar;
+	
+	public Ultrasonic(UltrasonicSensor us) {
+		this.sonar = us;
+	}
 
 	public boolean takeControl() {
 		if (sonar.getDistance() < 10)
-		return true;
-				return false;
+			return true;
+		return false;
 	}
 
 	public void action() {
 		Motor.A.forward();
-		if (sonar.getDistance() < 10) {
-			Motor.A.forward();
-			Motor.B.forward();
-		}
+		Motor.B.forward();
 		while (!suppressed) {
-
+			Thread.yield();
 		}
-		Thread.yield();
+		
 	}
 
 	public void suppress() {

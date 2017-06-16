@@ -1,41 +1,38 @@
 package Summative;
 
-import lejos.nxt.Motor;
-import lejos.nxt.SensorPort;
-import lejos.robotics.subsumption.Behavior;
 import lejos.nxt.LightSensor;
+import lejos.nxt.Motor;
+import lejos.robotics.subsumption.Behavior;
 
 public class Light implements Behavior {
-private boolean suppressed = true;
-private LightSensor light = new LightSensor(SensorPort.S2);
+	private boolean suppressed = true;
+	private LightSensor light;
 
+	public Light(LightSensor ls) {
+		this.light = ls;
+	}
+	
 	@Override
 	public boolean takeControl() {
-		 if(light.getLightValue() < 30){
+		if(light.getLightValue() < 38){
 			return true;
-		 }
+		}
 		return false;
-		
+
 	}
 
 	@Override
 	public void action() {
+		suppressed = false;
 		Motor.A.forward();
 		Motor.B.forward();
-				while(light.getLightValue()> 30){
-				Motor.A.rotate(5);
-				}
-
-				while (!suppressed)
-			 {
-				 Thread.yield();
-			 }
-		 
+		while (!suppressed) {
+			Thread.yield();
+		}
 	}
 
 	@Override
 	public void suppress() {
 		suppressed = true;
-		
 	}
 }
